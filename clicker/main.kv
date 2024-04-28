@@ -1,0 +1,118 @@
+#:set color_btn_bg "#DAD4F7"
+#:set color_txt_d "#C21460"
+#:set color_btn_bg_pr "#4424D6"
+#:set color_bg "#FEFE33"
+#:set color_a "#B2D732"
+#:set color_b "#347B98"
+
+
+<ButtonMenu@Button>:
+    size_hint_y: 0.3
+    font_size: "30sp"
+    color: color_txt_d
+    background_color: color_btn_bg
+    background_normal: ''
+    on_release: self.background_color = color_btn_bg
+    background_down: ''
+    on_press: self.background_color = color_btn_bg_pr
+    font_name: 'assets/TacOne-Regular.ttf'
+    
+
+<MenuScreen>:
+    canvas.before:
+        Color:
+            rgba: 1,1,0,1
+        Rectangle:
+            pos:self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '20dp'
+        spacting: '20dp'
+        
+
+        Label:
+            text: 'Cosmo Adventure'
+            font_name: 'assets/TacOne-Regular.ttf'
+            font_size: '30dp'
+            color: 'red'
+            size_hint_y: 0.2
+        
+        Image:
+            source: 'assets/images/apple.png'
+            size_hint_y: 0.3
+            allow_stretch: True
+
+        Widget:
+            size_hint_y: 0.3
+
+        ButtonMenu:
+            text: "Start"
+            on_press: root.manager.current = 'game'
+        ButtonMenu:
+            text: "Lider Board"
+        ButtonMenu:
+            text: "Shop"
+            on_press: root.manager.current = 'shop'
+
+
+<GameScreen>:
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint_y: 0.1
+            Label:
+                text: 'text: ' + str(root.points)
+                font_name: 'assets/TacOne-Regular.ttf'
+                font_size: '30dp'
+                color: color_a
+        FloatLayout:
+            size_hint_y: 0.6
+            Fruit:
+                id: fruit
+        Switch:
+            id: my_switch
+            active: False  
+            on_active: root.ids.fruit.Auto_Clicker(self)
+        ButtonMenu:
+            text: 'back'
+            on_press: root.manager.current = 'menu'
+
+<Fruit>
+    allow_stretch: True
+    size_hint: None, None
+    size: '200dp', '200dp'
+    center: self.parent.center
+        
+
+        
+<Shop>:
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint_y: 0.1
+            Label:
+                text: 'Points: ' + str(root.points)
+                font_name: 'assets/TacOne-Regular.ttf'
+                font_size: '30dp'
+                color: color_a
+        FloatLayout:
+            ButtonMenu:
+                text:'Upgrade'
+                size_hint: None, None
+                size: 150, 50
+                pos_hint: {'center_x': 0.3, 'y': 0.87} 
+                on_press: root.buy()
+            FloatLayout:
+                Label:
+                    id: price_label
+                    text: "Price: " + str(root.price)
+                    pos_hint: {'center_x': 0.7, 'y': 0.4} 
+                    font_name: 'assets/TacOne-Regular.ttf'
+                    font_size: '30dp'
+                    color: color_a
+            FloatLayout: 
+                size_hint_y: 0.3
+            ButtonMenu:
+                text: 'back'
+                on_press: root.manager.current = 'menu'
